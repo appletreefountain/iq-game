@@ -146,6 +146,4 @@ function startRound() {
     randomizeBoard();
     setTimeout(hideMarks, gMemorizationTime * 1000);
 }
-window.onload = function() {
-    startRound();
-}
+window.onload = startRound;

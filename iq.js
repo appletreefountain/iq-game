@@ -102,12 +102,10 @@ function adjustLevel(levelCompleted) {
         if (gLevel % 5 == 0) {
             if (gLevel % 10 == 0) {
                 gSizeY += 1;
-            } 
-            else {
+            } else {
                 gSizeX += 1;
             }
-        }
-        else {
+        } else {
             gMarkRate = Math.min(gMarkRate + 0.015, 0.9);
         }
         if (gLevel % 3 == 0) {
@@ -121,12 +119,10 @@ function adjustLevel(levelCompleted) {
     if (gLevel % 5 == 0) {
         if (gLevel % 10 == 0) {
             gSizeY -= 1;
-        } 
-        else {
+        } else {
             gSizeX -= 1;
         }
-    } 
-    else {
+    } else {
         gMarkRate = Math.max(gMarkRate - 0.015, 0.15);
     }
     if (gLevel % 3 == 0) {

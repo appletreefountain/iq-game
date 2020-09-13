@@ -6,7 +6,7 @@ This is a game that is based on the visual memorization portion of the abbreviat
 
 # Rules
 
-A random arrangement of squares is shown on a grid at the beginning of each round. After a short time for the player to memorize the arrangement, the player is challenged to re-create the same arrangement from memory. The difficulty grows as the player progresses from level to level. Any mistakes will set the player back by one level. 
+A random arrangement of squares is shown on a grid at the beginning of each round. After a short time for the player to memorize the arrangement, the player is challenged to recreate the same arrangement from memory. The difficulty grows as the player progresses from level to level. Any mistakes will set the player back by one level. 
 
 # Correlation With IQ
 

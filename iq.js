@@ -116,7 +116,7 @@ function adjustLevel(levelCompleted) {
         } else {
             gMarkRate = Math.min(gMarkRate + deltaRate, gMaxRate);
         }
-        if (gLevel % levelIntervalTime == 0) {
+        if (gLevel % levelIntervalTime === 0) {
             gMemorizationTime = Math.max(gMemorizationTime - deltaTime, gMinTime);
         }
         return;
@@ -133,7 +133,7 @@ function adjustLevel(levelCompleted) {
     } else {
         gMarkRate = Math.max(gMarkRate - deltaRate, gMinRate);
     }
-    if (gLevel % levelIntervalTime == 0) {
+    if (gLevel % levelIntervalTime === 0) {
         gMemorizationTime = Math.min(gMemorizationTime + deltaTime, gMaxTime);
     }
     gLevel--;

@@ -16,4 +16,4 @@ I dislike this sort of boilerplate about how people might receive this but no on
 
 https://www.wikiwand.com/en/Mnemonic_major_system
 
-While our IQs have been shown to strongly correlate with many positive life outcomes one should remember that any such general distributions also contain outliers. Neither do individual IQ scores towards the lower end of the distribution curve fate you towards failure in life nor do high IQ scores guarantee you success. Pursue whatever your goals might be and enjoy this game.
+While our IQs have been shown to strongly correlate with many positive life outcomes one should remember that any such general distributions also contain outliers. Neither do individual IQ scores towards the lower end of the distribution curve fate you to failure in life nor do high IQ scores guarantee you success. Pursue whatever your goals in life might be and enjoy this game.

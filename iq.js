@@ -1,9 +1,13 @@
 "use strict";
-var gMemorizationTime = 5.0;
+var gMinTime = 1.0;
+var gMaxTime = 5.0;
+var gMemorizationTime = gMaxTime;
+var gMinRate = 0.15;
+var gMaxRate = 0.9;
+var gMarkRate = gMinRate;
+var gLevel = 1;
 var gSizeX = 4;
 var gSizeY = 4;
-var gMarkRate = 0.15;
-var gLevel = 1;
 var gBoard = {};
 
 function createBoard() {
@@ -97,36 +101,40 @@ function showSolution() {
     adjustLevel(levelCompleted);
 }
 function adjustLevel(levelCompleted) {
+    var deltaTime = 0.2;
+    var deltaRate = 0.015;
+    var levelIntervalTime = 3;
+    var levelIntervalSize = 5;
     if (levelCompleted) {
         gLevel++;
-        if (gLevel % 5 == 0) {
-            if (gLevel % 10 == 0) {
-                gSizeY += 1;
+        if (gLevel % levelIntervalSize === 0) {
+            if (gLevel % (levelIntervalSize * 2) === 0) {
+                gSizeY++;
             } else {
-                gSizeX += 1;
+                gSizeX++;
             }
         } else {
-            gMarkRate = Math.min(gMarkRate + 0.015, 0.9);
+            gMarkRate = Math.min(gMarkRate + deltaRate, gMaxRate);
         }
-        if (gLevel % 3 == 0) {
-            gMemorizationTime -= 0.2;
+        if (gLevel % levelIntervalTime == 0) {
+            gMemorizationTime = Math.max(gMemorizationTime - deltaTime, gMinTime);
         }
         return;
     }    
-    if (gLevel == 1) {
+    if (gLevel === 1) {
         return;
     }
-    if (gLevel % 5 == 0) {
-        if (gLevel % 10 == 0) {
-            gSizeY -= 1;
+    if (gLevel % levelIntervalSize === 0) {
+        if (gLevel % (levelIntervalSize * 2) === 0) {
+            gSizeY--;
         } else {
-            gSizeX -= 1;
+            gSizeX--;
         }
     } else {
-        gMarkRate = Math.max(gMarkRate - 0.015, 0.15);
+        gMarkRate = Math.max(gMarkRate - deltaRate, gMinRate);
     }
-    if (gLevel % 3 == 0) {
-        gMemorizationTime += 0.2;
+    if (gLevel % levelIntervalTime == 0) {
+        gMemorizationTime = Math.min(gMemorizationTime + deltaTime, gMaxTime);
     }
     gLevel--;
 }

@@ -1,6 +1,6 @@
 # IQ Game
 
-This is a game that is based on the visual memorization portion of the abbreviated IQ test found under https://openpsychometrics.org/tests/FSIQ/. Playable under https://appletreefountain.github.io/iq-game/iq.html.
+This is a game that is based on the visual memorization portion of the abbreviated IQ test found under https://openpsychometrics.org/tests/FSIQ/. It is playable under https://appletreefountain.github.io/iq-game/iq.html. However, you can mirror it as you please. 
 
 <img src="/preview1.png" width="40%" />
 

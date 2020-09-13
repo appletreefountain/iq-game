@@ -21,35 +21,34 @@ function createBoard() {
     title.innerHTML = `<h2>Level ${gLevel}</h2>`;
     title.style.color = 'white';
     container.appendChild(title);
+    
+    gBoard = {};
+    for (var i = 0; i < gSizeY * gSizeX; ++i) {
+        if (i % gSizeX == 0) {
+            var newline = document.createElement('div');
+            newline.className = 'break';
+            container.appendChild(newline);
+        }
 
+        var square = document.createElement('div');
+        square.className = 'square';
+        container.appendChild(square);
+        
+        var checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'checkbox';
+        checkbox.style.display = 'none';
+        square.appendChild(checkbox);
+
+        gBoard[i] = {
+            square: square,
+            checkbox: checkbox,
+        }
+    }
     var newline = document.createElement('div');
     newline.className = 'break';
     container.appendChild(newline);
-    
-    gBoard = {};
-    for (var y = 0; y < gSizeY; ++y) {
-        for (var x = 0; x < gSizeX; ++x) {
-            var ns = y * gSizeX + x;
 
-            var square = document.createElement('div');
-            square.className = 'square';
-            container.appendChild(square);
-         
-            var checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.className = 'checkbox';
-            checkbox.style.display = 'none';
-            square.appendChild(checkbox);
-
-            gBoard[ns] = {
-                square: square,
-                checkbox: checkbox,
-            }
-        }
-        var newline = document.createElement('div');
-        newline.className = 'break';
-        container.appendChild(newline);
-    }
     var done = document.createElement('button');
     done.id = 'done';
     done.innerText = 'Done';
@@ -61,29 +60,23 @@ function createBoard() {
     return gBoard;
 }
 function randomizeBoard() {
-    for (var y = 0; y < gSizeY; ++y) {
-        for (var x = 0; x < gSizeX; ++x) {
-            var ns = y * gSizeX + x;
-            gBoard[ns].checkbox.checked = false;
-            gBoard[ns].checkbox.style.display = 'none';
-            gBoard[ns].square.style.background = '';
-            gBoard[ns].marked = Math.random() < gMarkRate;
-            if (gBoard[ns].marked) {
-                gBoard[ns].square.className = 'square selected';
-            } else {
-                gBoard[ns].square.className = 'square';
-            }
+    for (var i = 0; i < gSizeY * gSizeX; ++i) {
+        gBoard[i].checkbox.checked = false;
+        gBoard[i].checkbox.style.display = 'none';
+        gBoard[i].square.style.background = '';
+        gBoard[i].marked = Math.random() < gMarkRate;
+        if (gBoard[i].marked) {
+            gBoard[i].square.className = 'square selected';
+        } else {
+            gBoard[i].square.className = 'square';
         }
     }
 }
 function hideMarks() {
-    for (var y = 0; y < gSizeY; ++y) {
-        for (var x = 0; x < gSizeX; ++x) {
-            var ns = y * gSizeX + x;
-            gBoard[ns].checkbox.style.display = 'block';
-            gBoard[ns].checkbox.disabled = false;
-            gBoard[ns].square.className = 'square';
-        }
+    for (var i = 0; i < gSizeY * gSizeX; ++i) {
+        gBoard[i].checkbox.style.display = 'block';
+        gBoard[i].checkbox.disabled = false;
+        gBoard[i].square.className = 'square';
     }
     gBoard.done.disabled = false;
 }
@@ -92,23 +85,13 @@ function showSolution() {
     gBoard.done.onclick = startRound;
 
     var levelCompleted = true;
-    for (var y = 0; y < gSizeY; ++y) {
-        for (var x = 0; x < gSizeX; ++x) {
-            var ns = y * gSizeX + x;
-            gBoard[ns].checkbox.disabled = true;
-            if (gBoard[ns].marked) {
-                gBoard[ns].square.style.background = 'blue';
-                if (!gBoard[ns].checkbox.checked) {
-                    levelCompleted = false;
-                }
-            } else {
-                if (gBoard[ns].checkbox.checked) {
-                    gBoard[ns].square.style.background = 'red';
-                    levelCompleted = false;
-                } else {
-                    gBoard[ns].square.style.background = 'green';
-                }
-            }
+    for (var i = 0; i < gSizeY * gSizeX; ++i) {
+        gBoard[i].checkbox.disabled = true;
+        if (gBoard[i].marked !== gBoard[i].checkbox.checked) {
+            levelCompleted = false;
+            gBoard[i].square.style.background = 'red';
+        } else {
+            gBoard[i].square.style.background = 'green';
         }
     }
     adjustLevel(levelCompleted);

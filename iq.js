@@ -113,27 +113,26 @@ function adjustLevel(levelCompleted) {
         if (gLevel % 3 == 0) {
             gMemorizationTime -= 0.2;
         }
+        return;
+    }    
+    if (gLevel == 1) {
+        return;
     }
-    else {
-        if (gLevel == 1) {
-            return;
-        }
-        if (gLevel % 5 == 0) {
-            if (gLevel % 10 == 0) {
-                gSizeY -= 1;
-            } 
-            else {
-                gSizeX -= 1;
-            }
+    if (gLevel % 5 == 0) {
+        if (gLevel % 10 == 0) {
+            gSizeY -= 1;
         } 
         else {
-            gMarkRate = Math.max(gMarkRate - 0.015, 0.15);
+            gSizeX -= 1;
         }
-        if (gLevel % 3 == 0) {
-            gMemorizationTime += 0.2;
-        }
-        gLevel--;
+    } 
+    else {
+        gMarkRate = Math.max(gMarkRate - 0.015, 0.15);
     }
+    if (gLevel % 3 == 0) {
+        gMemorizationTime += 0.2;
+    }
+    gLevel--;
 }
 function startRound() {
     gBoard = createBoard();

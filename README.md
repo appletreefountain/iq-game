@@ -2,7 +2,7 @@
 
 This is a game that is based on the visual memorization portion of the abbreviated IQ test found under https://openpsychometrics.org/tests/FSIQ/. It is playable under https://appletreefountain.github.io/iq-game/iq.html. However, you can copy it as you please and there should be no dependency on a running web server or other online resources, in order for it to also be playable offline.
 
-<img src="/preview1.png" width="40%" />
+![Preview](/preview.png)
 
 # Rules
 

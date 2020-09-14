@@ -6,7 +6,7 @@ var gSizeX;
 var gSizeY;
 var gBoard;
 var gIQ;
-var gLevel = 60;
+var gLevel = 1;
 
 function createBoard() {
     let e = document.getElementById('container');
@@ -93,7 +93,6 @@ function showSolution() {
             gBoard[i].style.background = 'green';
         }
     }
-    return;
     if (levelCompleted) {
         gLevel++;
     } else {

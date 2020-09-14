@@ -20,7 +20,7 @@ function createBoard() {
     document.body.appendChild(container);
 
     let title = document.createElement('div');
-    title.innerHTML = `<h2>Level ${gLevel} (IQ ${Math.floor(gIQ)})</h2>`;
+    title.innerHTML = `Level ${gLevel} IQ ${Math.floor(gIQ)}`;
     title.style.color = 'white';
     container.appendChild(title);
     

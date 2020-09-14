@@ -26,7 +26,7 @@ function createBoard() {
     
     gBoard = {};
     for (let i = 0; i < gSizeY * gSizeX; ++i) {
-        if (i % gSizeX == 0) {
+        if (i % gSizeX === 0) {
             let newline = document.createElement('div');
             newline.className = 'break';
             container.appendChild(newline);

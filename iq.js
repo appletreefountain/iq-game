@@ -6,7 +6,7 @@ var gSizeX;
 var gSizeY;
 var gBoard;
 var gIQ;
-var gLevel = 1;
+var gLevel = 60;
 
 function createBoard() {
     let e = document.getElementById('container');
@@ -93,6 +93,7 @@ function showSolution() {
             gBoard[i].style.background = 'green';
         }
     }
+    return;
     if (levelCompleted) {
         gLevel++;
     } else {
@@ -100,21 +101,21 @@ function showSolution() {
     }
 }
 function adjustLevel() {
-    let minTime = 0.5;
-    let maxTime = 5.0;
+    let minTime = 0.4;
+    let maxTime = 5.5;
     let minSizeX = 4;
     let minSizeY = 4;
     let minRate = 0.15;
-    let maxRate = 0.65;
-    let levelSizeInterval = 7;
+    let maxRate = 0.75;
+    let levelSizeInterval = 10;
     let sigmoid = function(x, low, high, stretch) {
         return (Math.tanh((x / stretch - 0.5) * 1.5 * Math.PI) / 2 + 0.5) * (high - low) + low;
     }
-    gSizeX = minSizeX + Math.floor(gLevel / levelSizeInterval / 2 - 0.5) + 1;
-    gSizeY = minSizeY + Math.floor(gLevel / levelSizeInterval / 2);
-    gMarkRate = sigmoid(gLevel, minRate, maxRate, 100);
-    gViewTime = sigmoid(gLevel, maxTime, minTime, 100);
-    gIQ = sigmoid(gLevel, 79, 200, 100);
+    gSizeX = minSizeX + Math.floor(gLevel / levelSizeInterval / 2);
+    gSizeY = minSizeY + Math.floor(gLevel / levelSizeInterval / 2 - 0.5) + 1;
+    gMarkRate = sigmoid(gLevel, minRate, maxRate, 150);
+    gViewTime = sigmoid(gLevel, maxTime, minTime, 200);
+    gIQ = sigmoid(gLevel, 79, 200, 110);
 }
 function startRound() {
     adjustLevel();

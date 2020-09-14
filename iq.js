@@ -1,59 +1,49 @@
 "use strict";
-var gMinTime = 1.0;
-var gMaxTime = 5.0;
-var gMemorizationTime = gMaxTime;
-var gMinRate = 0.15;
-var gMaxRate = 0.9;
-var gMarkRate = gMinRate;
+
+var gViewTime;
+var gMarkRate;
+var gSizeX;
+var gSizeY;
+var gBoard;
+var gIQ;
 var gLevel = 1;
-var gSizeX = 4;
-var gSizeY = 4;
-var gBoard = {};
 
 function createBoard() {
-    var e = document.getElementById('container');
+    let e = document.getElementById('container');
     if (e) {
         document.body.removeChild(e);
     }
 
-    var container = document.createElement('div');
+    let container = document.createElement('div');
     container.className = 'container';
     container.id = 'container';
     document.body.appendChild(container);
 
-    var title = document.createElement('div');
-    title.innerHTML = `<h2>Level ${gLevel}</h2>`;
+    let title = document.createElement('div');
+    title.innerHTML = `<h2>Level ${gLevel} (IQ ${Math.floor(gIQ)})</h2>`;
     title.style.color = 'white';
     container.appendChild(title);
     
     gBoard = {};
-    for (var i = 0; i < gSizeY * gSizeX; ++i) {
+    for (let i = 0; i < gSizeY * gSizeX; ++i) {
         if (i % gSizeX == 0) {
-            var newline = document.createElement('div');
+            let newline = document.createElement('div');
             newline.className = 'break';
             container.appendChild(newline);
         }
 
-        var square = document.createElement('div');
+        let square = document.createElement('div');
         square.className = 'square';
+        square.selected = false;
         container.appendChild(square);
-        
-        var checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.className = 'checkbox';
-        checkbox.style.display = 'none';
-        square.appendChild(checkbox);
 
-        gBoard[i] = {
-            square: square,
-            checkbox: checkbox,
-        }
+        gBoard[i] = square;
     }
-    var newline = document.createElement('div');
+    let newline = document.createElement('div');
     newline.className = 'break';
     container.appendChild(newline);
 
-    var done = document.createElement('button');
+    let done = document.createElement('button');
     done.id = 'done';
     done.innerText = 'Done';
     done.disabled = true;
@@ -64,23 +54,28 @@ function createBoard() {
     return gBoard;
 }
 function randomizeBoard() {
-    for (var i = 0; i < gSizeY * gSizeX; ++i) {
-        gBoard[i].checkbox.checked = false;
-        gBoard[i].checkbox.style.display = 'none';
-        gBoard[i].square.style.background = '';
+    for (let i = 0; i < gSizeY * gSizeX; ++i) {
+        gBoard[i].style.background = '';
         gBoard[i].marked = Math.random() < gMarkRate;
         if (gBoard[i].marked) {
-            gBoard[i].square.className = 'square selected';
+            gBoard[i].className = 'square selected';
         } else {
-            gBoard[i].square.className = 'square';
+            gBoard[i].className = 'square';
         }
     }
 }
 function hideMarks() {
-    for (var i = 0; i < gSizeY * gSizeX; ++i) {
-        gBoard[i].checkbox.style.display = 'block';
-        gBoard[i].checkbox.disabled = false;
-        gBoard[i].square.className = 'square';
+    gBoard.done.innerText = 'Done';
+    for (let i = 0; i < gSizeY * gSizeX; ++i) {
+        gBoard[i].className = 'square';
+        gBoard[i].onclick = function() {
+            gBoard[i].selected = !gBoard[i].selected;
+            if (gBoard[i].selected) {
+                gBoard[i].className = 'square selected';
+            } else {
+                gBoard[i].className = 'square';
+            }
+        };
     }
     gBoard.done.disabled = false;
 }
@@ -88,62 +83,46 @@ function showSolution() {
     gBoard.done.innerText = 'Next';
     gBoard.done.onclick = startRound;
 
-    var levelCompleted = true;
-    for (var i = 0; i < gSizeY * gSizeX; ++i) {
-        gBoard[i].checkbox.disabled = true;
-        if (gBoard[i].marked !== gBoard[i].checkbox.checked) {
+    let levelCompleted = true;
+    for (let i = 0; i < gSizeY * gSizeX; ++i) {
+        gBoard[i].onclick = function() {};
+        if (gBoard[i].marked !== gBoard[i].selected) {
             levelCompleted = false;
-            gBoard[i].square.style.background = 'red';
+            gBoard[i].style.background = 'red';
         } else {
-            gBoard[i].square.style.background = 'green';
+            gBoard[i].style.background = 'green';
         }
     }
-    adjustLevel(levelCompleted);
-}
-function adjustLevel(levelCompleted) {
-    var deltaTime = 0.2;
-    var deltaRate = 0.015;
-    var levelIntervalTime = 3;
-    var levelIntervalSize = 5;
     if (levelCompleted) {
         gLevel++;
-        if (gLevel % levelIntervalSize === 0) {
-            if (gLevel % (levelIntervalSize * 2) === 0) {
-                gSizeY++;
-            } else {
-                gSizeX++;
-            }
-        } else {
-            gMarkRate = Math.min(gMarkRate + deltaRate, gMaxRate);
-        }
-        if (gLevel % levelIntervalTime === 0) {
-            gMemorizationTime = Math.max(gMemorizationTime - deltaTime, gMinTime);
-        }
-        return;
-    }    
-    if (gLevel === 1) {
-        return;
-    }
-    if (gLevel % levelIntervalSize === 0) {
-        if (gLevel % (levelIntervalSize * 2) === 0) {
-            gSizeY--;
-        } else {
-            gSizeX--;
-        }
     } else {
-        gMarkRate = Math.max(gMarkRate - deltaRate, gMinRate);
+        gLevel = Math.max(gLevel - 1, 1);
     }
-    if (gLevel % levelIntervalTime === 0) {
-        gMemorizationTime = Math.min(gMemorizationTime + deltaTime, gMaxTime);
+}
+function adjustLevel() {
+    let minTime = 0.5;
+    let maxTime = 5.0;
+    let minSizeX = 4;
+    let minSizeY = 4;
+    let minRate = 0.15;
+    let maxRate = 0.65;
+    let levelSizeInterval = 7;
+    let sigmoid = function(x, low, high, stretch) {
+        return (Math.tanh((x / stretch - 0.5) * 1.5 * Math.PI) / 2 + 0.5) * (high - low) + low;
     }
-    gLevel--;
+    gSizeX = minSizeX + Math.floor(gLevel / levelSizeInterval / 2 - 0.5) + 1;
+    gSizeY = minSizeY + Math.floor(gLevel / levelSizeInterval / 2);
+    gMarkRate = sigmoid(gLevel, minRate, maxRate, 100);
+    gViewTime = sigmoid(gLevel, maxTime, minTime, 100);
+    gIQ = sigmoid(gLevel, 79, 200, 100);
 }
 function startRound() {
+    adjustLevel();
     gBoard = createBoard();
     gBoard.done.disabled = true;
-    gBoard.done.innerText = 'Done';
+    gBoard.done.innerText = 'Watch';
     gBoard.done.onclick = showSolution;
     randomizeBoard();
-    setTimeout(hideMarks, gMemorizationTime * 1000);
+    setTimeout(hideMarks, gViewTime * 1000);
 }
 window.onload = startRound;

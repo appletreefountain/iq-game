@@ -20,7 +20,7 @@ function createBoard() {
     document.body.appendChild(container);
 
     let title = document.createElement('div');
-    title.innerHTML = `Level ${gLevel} IQ ${Math.floor(gIQ)}`;
+    title.innerHTML = `Level ${gLevel} IQ ${gIQ}`;
     title.style.color = 'white';
     container.appendChild(title);
     
@@ -114,7 +114,7 @@ function adjustLevel() {
     gSizeY = minSizeY + Math.floor(gLevel / levelSizeInterval / 2 - 0.5) + 1;
     gMarkRate = sigmoid(gLevel, minRate, maxRate, 150);
     gViewTime = sigmoid(gLevel, maxTime, minTime, 200);
-    gIQ = sigmoid(gLevel, 79, 200, 110);
+    gIQ = Math.floor(sigmoid(gLevel, 79, 200, 110));
 }
 function startRound() {
     adjustLevel();

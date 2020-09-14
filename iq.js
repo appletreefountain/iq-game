@@ -6,7 +6,7 @@ var gSizeX;
 var gSizeY;
 var gBoard;
 var gIQ;
-var gLevel = 50;
+var gLevel = 1;
 
 function createBoard() {
     let e = document.getElementById('container');
@@ -101,7 +101,7 @@ function showSolution() {
 }
 function adjustLevel() {
     let minTime = 0.4;
-    let maxTime = 50.5;
+    let maxTime = 5.5;
     let minSizeX = 4;
     let minSizeY = 4;
     let minRate = 0.15;

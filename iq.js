@@ -110,8 +110,8 @@ function adjustLevel() {
     let sigmoid = function(x, low, high, stretch) {
         return (Math.tanh((x / stretch - 0.5) * 1.5 * Math.PI) / 2 + 0.5) * (high - low) + low;
     }
-    gSizeX = minSizeX + Math.floor(gLevel / levelSizeInterval / 2 - 0.5) + 1;
-    gSizeY = minSizeY + Math.floor(gLevel / levelSizeInterval / 2);
+    gSizeX = minSizeX + Math.floor(gLevel / levelSizeInterval / 2);
+    gSizeY = minSizeY + Math.floor(gLevel / levelSizeInterval / 2 - 0.5) + 1;
     gMarkRate = sigmoid(gLevel, minRate, maxRate, 150);
     gViewTime = sigmoid(gLevel, maxTime, minTime, 200);
     gIQ = sigmoid(gLevel, 79, 200, 110);

@@ -114,7 +114,7 @@ function adjustLevel() {
     gSizeY = minSizeY + Math.floor(gLevel / levelSizeInterval / 2 - 0.5) + 1;
     gMarkRate = sigmoid(gLevel, minRate, maxRate, 150);
     gViewTime = sigmoid(gLevel, maxTime, minTime, 200);
-    gIQ = Math.floor(sigmoid(gLevel, 79, 200, 110));
+    gIQ = Math.round(sigmoid(gLevel, 79, 200, 110));
 }
 function startRound() {
     adjustLevel();
